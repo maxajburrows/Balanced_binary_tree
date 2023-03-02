@@ -46,7 +46,19 @@ const Tree = (array) => {
         else root.rightChild = insertRecMain(data, root.rightChild);
         return root;
     }
-    return {root, insert, insertRec};
+
+    const remove = (data, root=root) => {
+        if (root === null) return null;
+        else if (data === root.data) {
+            if (root.leftChild === null && root.rightChild === null) return null;
+            else if (root.leftChild === null) return root.rightChild;
+            else if (root.rightChild === null) return root.leftChild;
+        }
+        else if (data < root.data) root.leftChild = remove(data, root.leftChild);
+        else root.rightChild = remove(data, root.rightChild);
+        return root;
+    }
+    return {root, insert, insertRec, remove};
 }
 
 function buildTree (array) {
