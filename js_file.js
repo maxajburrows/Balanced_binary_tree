@@ -47,16 +47,23 @@ const Tree = (array) => {
         return root;
     }
 
-    const remove = (data, root=root) => {
+    remove = function (data, root=this.root) {
         if (root === null) return null;
-        else if (data === root.data) {
-            if (root.leftChild === null && root.rightChild === null) return null;
-            else if (root.leftChild === null) return root.rightChild;
-            else if (root.rightChild === null) return root.leftChild;
-        }
+        else if (data === root.data) return node_Replace(root);
         else if (data < root.data) root.leftChild = remove(data, root.leftChild);
         else root.rightChild = remove(data, root.rightChild);
         return root;
+    }
+
+    const node_Replace = (root) => {
+        if (root.leftChild === null && root.rightChild === null) return null;
+        else if (root.leftChild === null) return root.rightChild;
+        else if (root.rightChild === null) return root.leftChild;
+        else {
+            root.data = root.leftChild.data;
+            root.leftChild = node_Replace(root.leftChild);
+            return root
+        }
     }
     return {root, insert, insertRec, remove};
 }
@@ -114,11 +121,11 @@ const testArrayGenerator = (short, long, max) => {
     return testArray;
 }
 
-testArray = testArrayGenerator(10,25,100);
+testArray = testArrayGenerator(25,30,100);
 //testArray = []
 let testTree = Tree(testArray);
 prettyPrint(testTree.root);
 testTree.insert(72);
 //testTree.insert(34);
-testTree.insertRec(28);
+//testTree.insertRec(28);
 prettyPrint(testTree.root);
